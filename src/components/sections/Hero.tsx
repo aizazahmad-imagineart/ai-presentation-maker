@@ -1,112 +1,102 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
-import { Sparkle, FileText, ChartBar, UploadSimple } from "@phosphor-icons/react";
+import { useEffect, useRef, useState } from "react";
+import { Sparkle, UploadSimple } from "@phosphor-icons/react";
 import { Reveal } from "@/components/primitives/Reveal";
 import { ButtonLink } from "@/components/Button";
 
-function FloatingChip({
-  icon,
-  className,
-  pointerFlip = false,
-}: {
-  icon: React.ReactNode;
-  className: string;
-  pointerFlip?: boolean;
-}) {
-  return (
-    <div className={`hidden lg:flex absolute items-center justify-center w-14 h-14 rounded-full glass-card shadow-[0_8px_24px_rgba(109,63,246,0.14)] text-content-primary ${className}`}>
-      {icon}
-      <svg
-        width="10"
-        height="10"
-        viewBox="0 0 10 10"
-        fill="none"
-        aria-hidden="true"
-        className="absolute text-accent/70"
-        style={{
-          bottom: pointerFlip ? undefined : -6,
-          top: pointerFlip ? -6 : undefined,
-          left: pointerFlip ? -6 : undefined,
-          right: pointerFlip ? undefined : -6,
-          transform: pointerFlip ? "rotate(180deg)" : "none",
-        }}
-      >
-        <path d="M0 0L10 3L2 10Z" fill="currentColor" />
-      </svg>
-    </div>
-  );
+const MAX_SCALE = 1.45;
+
+/** Pins the target while its (much taller) track scrolls through, scaling it
+ * up toward full-bleed at the track's midpoint and back down to its resting
+ * size by the end — a scroll-linked "zoom in, then release" for a hero
+ * screenshot, without pulling in an animation library for one effect. */
+function useScrollZoom() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const targetRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let frame = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const track = trackRef.current;
+        const target = targetRef.current;
+        if (!track || !target) return;
+        const vh = window.innerHeight;
+        const total = track.offsetHeight - vh;
+        if (total <= 0) return;
+        const scrolled = Math.min(Math.max(-track.getBoundingClientRect().top, 0), total);
+        const p = scrolled / total; // 0 -> 1 across the pinned distance
+        const scale = 1 + (MAX_SCALE - 1) * (1 - Math.abs(p - 0.5) * 2);
+        target.style.transform = `scale(${Math.max(1, scale)})`;
+      });
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  return { trackRef, targetRef };
 }
 
 export function Hero() {
   const [prompt, setPrompt] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const generateHref = `https://www.imagine.art/computer${prompt.trim() ? `?prompt=${encodeURIComponent(prompt.trim())}` : ""}`;
+  const { trackRef, targetRef } = useScrollZoom();
 
   return (
-    <section className="relative overflow-hidden border-b border-border-primary">
-      {/* Ambient liquid-glass blobs */}
-      <div aria-hidden="true" className="absolute -z-20 inset-0 overflow-hidden">
-        <div className="blob absolute -top-24 left-[8%] w-[420px] h-[420px] bg-accent/25" />
-        <div className="blob absolute top-10 right-[4%] w-[380px] h-[380px] bg-accent-pink/30" />
-        <div className="blob absolute top-[60%] left-[38%] w-[320px] h-[320px] bg-accent-light/25" />
-      </div>
+    <section className="relative border-b border-border-primary">
+      <div className="container-page pt-[120px] pb-4 md:pt-[144px] md:pb-6">
+        {/* Signature accent sparkles — the one spot of color on an otherwise
+            monochrome page, echoing MCP/Fashion Studio's single-accent rule */}
+        <Sparkle
+          size={46}
+          weight="fill"
+          style={{ color: "#FB5607" }}
+          className="hidden lg:block absolute left-[16%] top-[18%] rotate-[-12deg]"
+        />
+        <Sparkle
+          size={22}
+          weight="fill"
+          style={{ color: "#FB5607" }}
+          className="hidden lg:block absolute right-[18%] top-[30%] rotate-[10deg] opacity-70"
+        />
 
-      {/* Dot-grid texture */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 -z-10"
-        style={{
-          backgroundImage: "radial-gradient(rgb(0 0 0 / 0.07) 1px, transparent 1px)",
-          backgroundSize: "28px 28px",
-        }}
-      />
-
-      <div className="container-page relative pt-[160px] pb-24 md:pt-[196px] md:pb-32">
-        {/* Floating annotation chips */}
-        <FloatingChip icon={<FileText size={22} weight="regular" />} className="left-[2%] top-[16%]" />
-        <FloatingChip icon={<Sparkle size={22} weight="regular" className="text-accent" />} className="right-[4%] top-[6%]" pointerFlip />
-        <FloatingChip icon={<ChartBar size={22} weight="regular" />} className="left-[8%] bottom-[8%]" />
-        <div className="hidden lg:flex absolute items-center justify-center w-14 h-14 rounded-full glass-card shadow-[0_8px_24px_rgba(109,63,246,0.14)] right-[2%] bottom-[16%] p-3">
-          <Image src="/imagine-logo.svg" alt="" width={28} height={28} aria-hidden="true" />
-        </div>
-
-        <Reveal className="flex flex-col items-center text-center max-w-[880px] mx-auto">
-          <span className="inline-flex items-center gap-2 rounded-full glass-card px-4 py-[7px] text-[13px] font-medium text-content-secondary mb-8">
-            <Sparkle size={14} weight="fill" className="text-accent" />
-            Text, outline, or PDF — in. Polished deck — out.
+        <Reveal className="flex flex-col items-center text-center max-w-[800px] mx-auto">
+          <span className="inline-flex items-center gap-2 rounded-full border border-border-primary px-4 py-[7px] text-[13px] font-medium text-content-secondary mb-7">
+            <Sparkle size={14} weight="fill" className="text-content-primary" />
+            Text, outline, or PDF in. Polished deck out.
           </span>
 
           <h1
-            className="font-display font-semibold capitalize leading-[1.02] tracking-[-1.5px] text-content-primary m-0"
-            style={{ fontSize: "clamp(40px, 6.4vw, 84px)" }}
+            className="font-display font-semibold capitalize leading-[1.04] tracking-[-1.5px] text-content-primary m-0"
+            style={{ fontSize: "clamp(40px, 6vw, 76px)" }}
           >
-            Your Next Deck, <br className="hidden sm:block" />
-            Drafted In <span className="text-brand-gradient">Minutes</span>
+            Your Next Deck, Drafted{" "}
+            <span className="font-serif-accent italic font-normal normal-case tracking-normal">in Minutes</span>
           </h1>
 
-          <p className="font-sans text-content-secondary leading-[1.7] tracking-[-0.005em] max-w-[560px] mt-7" style={{ fontSize: "clamp(16px, 1.6vw, 19px)" }}>
-            Imagine Computer&apos;s AI presentation maker turns a rough idea, an outline, or an
-            old PDF into a fully designed deck — written, structured, and styled in one pass.
+          <p className="font-sans text-content-secondary leading-[1.7] tracking-[-0.005em] max-w-[540px] mt-5" style={{ fontSize: "clamp(16px, 1.6vw, 19px)" }}>
+            Turn a rough idea, an outline, or an old PDF into a fully designed deck —
+            written, structured, and styled in one pass.
           </p>
-
-          <div className="flex flex-col sm:flex-row items-center gap-3 mt-10">
-            <ButtonLink href="https://www.imagine.art/computer" size="lg" variant="brand">
-              Generate Your First Deck
-            </ButtonLink>
-            <ButtonLink href="#showcase" size="lg" variant="ghost">
-              See it at work
-            </ButtonLink>
-          </div>
 
           <p className="text-[13px] text-content-tertiary mt-5">No design skills or credit card needed.</p>
         </Reveal>
 
         {/* Try-it input bar */}
-        <Reveal delay={120} className="max-w-[640px] mx-auto mt-16">
+        <Reveal delay={100} className="max-w-[600px] mx-auto mt-8">
           <div
-            className="flex items-center gap-2 rounded-[18px] glass-card shadow-[0_8px_32px_rgba(109,63,246,0.12)] p-2 pl-5 cursor-text"
+            className="flex items-center gap-2 rounded-[14px] border border-border-secondary bg-white p-2 pl-5 cursor-text"
             onClick={() => inputRef.current?.focus()}
           >
             <UploadSimple size={18} weight="regular" className="text-content-tertiary shrink-0" />
@@ -123,6 +113,26 @@ export function Hero() {
             </ButtonLink>
           </div>
         </Reveal>
+      </div>
+
+      {/* Real product output, presented like a product video: pinned while
+          its track scrolls by, zooming to full-bleed at the midpoint, then
+          releasing back to resting size as the page continues past it. */}
+      <div ref={trackRef} className="relative h-[220vh]">
+        <div className="sticky top-0 h-screen flex items-center overflow-hidden">
+          <div ref={targetRef} className="container-page w-full will-change-transform">
+            <div className="rounded-2xl border border-border-primary overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.1)]">
+              <Image
+                src="/screenshots/flow-4-editor.png"
+                alt="A finished, editable deck generated by Imagine Computer"
+                width={1920}
+                height={1080}
+                className="w-full h-auto block"
+                priority
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

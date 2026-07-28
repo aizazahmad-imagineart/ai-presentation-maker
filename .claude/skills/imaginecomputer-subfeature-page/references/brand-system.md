@@ -1,99 +1,94 @@
 # Brand System
 
 The base rules come from `Guidelines/GUIDELINES.md` (the ImagineMCP kit: monochrome,
-navbar/footer behavior, type scale). This file documents **what this project added on
-top of it** — the purple accent + liquid-glass system — which `GUIDELINES.md` alone does
-not cover, and which is now the standard for every sub-feature page.
+navbar/footer behavior, type scale). This file documents **what this project's second,
+current iteration does on top of it** — a monochrome-first system with real imagery and at
+most one sparing accent moment. An earlier purple/glass/gradient version existed first and
+was reworked after reviewer feedback called it "conventional and AI-generic" (purple
+overuse, squished fake product mockups, em-dash-heavy copy). Do not revive that system —
+this file describes the current, correct one.
 
-## Why there's a purple accent at all
+## Why (almost) no color
 
-`GUIDELINES.md` says the site is strictly monochrome with no colored accent. That rule
-still governs the **chrome** — nav, footer, body text. But the actual ImagineArt brand
-mark (`Guidelines/assets/imagine-logo.svg`) is a purple-to-pink gradient, and the real
-`imagine.art/computer` page uses color throughout its content sections (colorful hero
-art, pastel gradient toolkit cards). The resolution, confirmed live in this project:
-**monochrome chrome, purple-accented content.** Don't relitigate this — it was an
-explicit, deliberate call, not an oversight.
+`GUIDELINES.md` says the site is strictly monochrome with no colored accent. The three
+successful sibling pages this rebuild studied —
+[ai-film-studio](https://www.imagine.art/ai-film-studio), [mcp](https://www.imagine.art/mcp),
+[ai-fashion-studio](https://www.imagine.art/ai-fashion-studio) — mostly honor that: black,
+white, greys, real photography/screenshots doing the visual work instead of a brand
+gradient. Where they do use color, it's **one hue, used once or twice, deliberately** — not
+a palette applied throughout every card and icon chip the way the earlier purple system did.
 
-## Core palette (sampled from `imagine-logo.svg`)
-
-```css
---color-accent-deep: #240e77;
---color-accent: #6d3ff6;        /* primary CTA / icon-chip purple */
---color-accent-hover: #5a2fe0;
---color-accent-light: #a189e1;
---color-accent-pink: #cc98f8;
---color-accent-soft: #f2c2fa;
-
---color-brand-from: #34195b;    /* gradient text/bg endpoints */
---color-brand-via: #6d3ff6;
---color-brand-to: #cc98f8;
-```
-
-Use via Tailwind utilities generated from these theme tokens: `bg-accent`,
-`text-accent`, `from-accent`/`to-accent-pink` gradients, `.bg-brand-gradient` /
-`.text-brand-gradient` for the 3-stop gradient.
-
-**Never** introduce a different accent hue. If a new sub-feature "needs its own color,"
-the answer is still purple — differentiate through content and imagery, not palette.
-
-## Typography — unchanged from GUIDELINES.md
-
-Google Sans Flex only, weights capped at `font-semibold` (600), Title Case headings
-(`capitalize`), sentence-case body, mono/uppercase eyebrows. See `GUIDELINES.md` §2 for
-the full rules — nothing about this changed.
-
-## Liquid glass
-
-Two card surfaces, chosen by what's *behind* the card, not by preference:
-
-- **`.glass-card`** — `background: rgb(255 255 255 / 0.6)` + `backdrop-blur(24px)
-  saturate(160%)` + a faint white border. Use when the card sits **over a blob/gradient
-  background** and letting color bleed through is the point (feature cards, problem
-  cards, showcase cards).
-- **`.glass-card-dark`** — the same idea at `rgb(255 255 255 / 0.06)`, for cards on the
-  dark purple-black gradient sections.
-- **Do not** use either translucent variant when cards can visually **stack directly on
-  top of other text content** (e.g. a card-deck/stack UI) — 60% opacity isn't enough to
-  mask what's underneath and the text bleeds together illegibly. Use a near-opaque
-  surface there instead (`bg-white/95 backdrop-blur-xl border border-border-primary`),
-  confirmed the hard way in `StaggerTestimonials.tsx`.
-
-## Ambient blobs
-
-`.blob` utility (`border-radius: 9999px; filter: blur(64px);`) applied to absolutely
-positioned, oversized, low-opacity colored divs (`bg-accent/25`, `bg-accent-pink/20`,
-etc.) behind hero/feature/CTA content. This is the primary way color and depth enter an
-otherwise white or near-black section — reach for 2–3 blobs per section that needs visual
-richness, not a flat color fill.
-
-## Dark sections
-
-Never flat `#0d0d0d`. Use:
+**The resolution for this page:** monochrome everywhere by default. If a page wants a single
+"pop" moment (a small decorative flourish near the hero, one highlighted word), use the
+legacy ImagineArt secondary orange below — sparingly, as a signature touch, never as a
+recurring card/button/icon color.
 
 ```css
-background: linear-gradient(160deg, #0d0d0d 0%, #1a1030 55%, #0d0d0d 100%);
+--color-accent-orange: rgb(251 86 7); /* #FB5607 — the only sanctioned accent, used sparingly */
 ```
 
-optionally layered with a faint white grid-line texture (`background-size` around
-20–24px — bigger reads as cluttered against card borders, this was tuned down mid-project)
-and 1–2 `.blob` accents in accent/accent-pink.
+**Never** introduce a new accent hue per feature, and never spread the accent across
+buttons, icon chips, or card backgrounds — that's what made the previous version read as
+generic. If it's used, it should be countable on one hand per page (e.g. two small
+decorative Sparkle marks near the hero headline, as on the reference page).
 
-## Container & spacing rhythm
+Primary CTAs are plain monochrome: `bg-content-primary text-white hover:bg-black` (see
+`Button.tsx`'s `brand` variant) — not a gradient, not the accent color.
 
-- `.container-page`: max-width 1240px, **horizontal padding only** (see
-  `pitfalls.md` for why this is load-bearing, not stylistic).
-- Section vertical rhythm: `py-24 md:py-32`. `py-16 md:py-24` was the original
-  Guidelines-kit default and reads as squished for this richer, more spacious visual
-  style — don't go back to it.
-- Sections separate via `border-b border-border-primary` **plus** a background-color
-  shift or blob decoration — a hairline alone isn't enough visual separation at this
-  density of content.
+## Typography
+
+Google Sans Flex remains the only sans typeface, weights capped at `font-semibold` (600).
+New in this iteration: **Instrument Serif** (italic only, via `next/font/google`,
+`--font-serif-accent`) used for a single emphasis word or short phrase per heading — e.g.
+"Drafted **in Minutes**" in the hero, "From text to **slides**" in How It Works. Apply as
+`font-serif-accent italic font-normal` on a `<span>`, overriding the heading's `capitalize`/
+tracking with `normal-case tracking-normal` on that span. This is the one place where a
+different typeface is allowed — don't introduce a second display font anywhere else, and
+don't use the serif for more than one short phrase per section.
+
+Headings: Title Case (`capitalize`), tight tracking (`tracking-[-0.5px]` to
+`tracking-[-1.5px]` depending on size). Body: sentence case, `text-content-secondary`,
+generous line-height (`leading-[1.6]`–`leading-[1.75]`). Eyebrows: `font-mono text-[10.5px]
+font-semibold tracking-[1.8px] uppercase text-content-tertiary`.
+
+## Real imagery only, given room to breathe
+
+The single biggest fix in this rebuild: **every product visual is a real screenshot or real
+example output**, never a fabricated CSS/gradient mockup standing in for a UI. Real assets
+live in `public/screenshots/` (actual product-flow screenshots) and `public/decks/` (real
+example outputs, e.g. deck covers). Give them generous, near-full-width frames — a plain
+`rounded-xl`/`rounded-2xl border border-border-primary` card with a soft shadow is enough
+chrome; never scale a real screenshot down into a small template-sized box just to fit a
+grid cell, that's exactly the "squished" complaint that triggered this rebuild. If a
+feature doesn't have real assets yet, say so explicitly and ask for them rather than
+faking a mockup — see `pitfalls.md` #7 and the SKILL.md "Real imagery only" rule.
+
+## Surfaces
+
+Plain, opaque surfaces only: `bg-white` cards with `border border-border-primary` (or
+`border-border-secondary` for lighter internal dividers) and an optional soft shadow
+(`shadow-[0_20px_48px_rgba(0,0,0,0.08)]` is the standard resting shadow for a lifted
+product screenshot). **No glass/blur cards, no ambient color blobs, no colored gradient
+backgrounds** — the earlier `.glass-card`/`.glass-card-dark`/`.blob`/`.bg-brand-gradient`
+utilities have been removed from `globals.css`. Dark sections use a plain near-black
+(`bg-[#0a0a0a]`), not a purple-tinted gradient.
+
+## Container & spacing rhythm — unchanged, still load-bearing
+
+- `.container-page`: max-width 1240px, **horizontal padding only** (see `pitfalls.md` for
+  why this must stay longhand, not stylistic).
+- Section vertical rhythm: `py-20 md:py-28` is the current standard (the earlier
+  `py-24 md:py-32` was tuned down slightly once color/blobs stopped doing visual work and
+  breathing room + real imagery needed to carry sections instead).
+- Sections separate via a plain `border-b border-border-primary` hairline — no background
+  shift, no blob decoration needed. If a section wants more separation, a dark
+  (`bg-[#0a0a0a]`) background band is enough (see `ShowcaseSection.tsx`).
 
 ## Icons
 
-Phosphor (`@phosphor-icons/react`), `weight="regular"` by default. Feature/use-case icon
-chips: `flex items-center justify-center rounded-full bg-gradient-to-br from-accent
-to-accent-pink text-white` with a soft matching shadow
-(`shadow-[0_4px_14px_rgba(109,63,246,0.35)]`) — this is the standard "here's a capability"
-chip used throughout the page. Reuse it rather than a flat single-color chip.
+Phosphor (`@phosphor-icons/react`), used sparingly and almost always monochrome
+(`text-content-primary` or `text-content-tertiary`, `weight="regular"` or `weight="fill"`
+for small filled marks like the hero eyebrow's Sparkle). **No gradient icon chips** — the
+earlier `bg-gradient-to-br from-accent to-accent-pink` chip pattern is gone along with the
+purple system. Most sections in the current architecture use zero icons at all, relying on
+numbered indices (`01`, `02`, `03`) or real imagery instead — prefer that first.

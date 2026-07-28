@@ -10,7 +10,7 @@ import { useRef, type ReactNode, type MouseEvent } from "react";
 export function SpotlightCard({
   children,
   className = "",
-  glow = "rgba(109,63,246,0.9)",
+  glow = "rgba(255,255,255,0.9)",
 }: {
   children: ReactNode;
   className?: string;
@@ -33,7 +33,7 @@ export function SpotlightCard({
         className="absolute inset-0 rounded-[inherit] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
         style={{
           padding: 1,
-          background: `radial-gradient(220px circle at var(--spot-x, 50%) var(--spot-y, 50%), ${glow}, rgba(204,152,248,0.35) 38%, transparent 68%)`,
+          background: `radial-gradient(220px circle at var(--spot-x, 50%) var(--spot-y, 50%), ${glow}, rgba(255,255,255,0.35) 38%, transparent 68%)`,
           WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
           WebkitMaskComposite: "xor",
           maskComposite: "exclude",

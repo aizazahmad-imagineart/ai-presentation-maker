@@ -1,27 +1,39 @@
 # Inspiration & Reference Links
 
-What actually shaped this direction, and what to take from each. Revisit these before
-inventing a new visual idiom for a future page — the answer is usually "adapt one of
-these into the existing brand system," not "design something new."
+What actually shaped the **current** (monochrome-first) direction, and what to take from
+each. This replaced an earlier purple/glass direction after reviewers called it
+"conventional and AI-generic" — the earlier reference set (presentations.ai, storydoc,
+replit, a Dribbble concept, manus.im, 21st.dev component demos, a Three.js tunnel repo) is
+no longer the basis for new pages; the sites below are. Revisit these before inventing a
+new visual idiom for a future page — the answer is usually "adapt one of these into the
+current brand system," not "design something new."
 
 | Reference | What to take from it |
 |---|---|
-| [imagine.art/computer](https://www.imagine.art/computer) | The real sibling ImagineComputer page — ground truth that the brand is monochrome chrome + purple/colorful content, not strictly monochrome everywhere. Also has an actual "AI Slides" card in its toolkit grid worth checking for copy/positioning consistency. |
-| [presentations.ai](https://www.presentations.ai/) | Hero structure (pill badge + centered headline + single CTA + product shot), a clean 2×3 feature grid, and a "Problem" section with isometric-block icons — the direct inspiration for adding the Problem section to this page's architecture. |
-| [storydoc.com](https://www.storydoc.com/) | Restrained purple-as-the-only-accent execution: solid purple CTA buttons, one purple word inside an otherwise dark headline, a deep purple gradient trust-strip band instead of pure black. This is the closest external reference to "monochrome ink + one confident purple accent." |
-| [replit.com](https://replit.com/) | Oversized rounded bento cards, blob-shaped testimonial carousel — reference for scale and confidence in card shapes. |
-| [Clause — Contract Management Landing Page](https://dribbble.com/shots/23713828-Clause-Contract-Management-Landing-Page) (Dipa UI/UX) | Bold/confident scale, dotted-grid hero texture, floating circular avatar/icon chips with small pointer-triangle annotations, dark full-bleed "integration" band with logo tiles, product-screenshot-in-card features, centered pull-quote testimonial, stat strip. Directly inspired the Hero's floating annotation chips and the dark band pattern — reinterpreted at ≤ `font-semibold` weight and purple instead of lime, per the brand rules. |
-| [manus.im/features/webapp](https://manus.im/features/webapp), [manus.im/solutions/marketing](https://manus.im/solutions/marketing) | Illustrated content + a functional-looking "editable canvas" panel overlay (selection handles, resize handles, floating "Suggest images ✨" control, drag-cursor annotation) — directly inspired `FeatureMocks.tsx`'s selection-handle + drag-cursor + status-chip pattern for making feature cards feel like real, editable software instead of static icon+text. |
-| [21st.dev — Spotlight Card](https://21st.dev/@easemize/components/spotlight-card) | The cursor-tracked glow-ring hover pattern, adapted into `SpotlightCard.tsx`. |
-| [21st.dev — Stagger Testimonials](https://21st.dev/@vaib215/components/stagger-testimonials) | The click-to-cycle card-deck pattern, adapted into `StaggerTestimonials.tsx` as a comparison alternative to the marquee. |
-| [thebuggeddev/delphi](https://github.com/thebuggeddev/delphi) | Three.js infinite-tunnel technique (segments recycling along a camera path), adapted into `TunnelBackground.tsx` — swapped scroll-driven camera motion for constant ambient drift, and Unsplash photo textures for canvas-drawn brand-colored slide mockups. |
+| [imagine.art/ai-film-studio](https://www.imagine.art/ai-film-studio) | A successful sibling ImagineArt sub-feature page proving the monochrome-plus-real-imagery direction works at this scale. Reference for restrained color use and how real media (not mockups) can carry an entire section. |
+| [imagine.art/mcp](https://www.imagine.art/mcp) | The direct inspiration for this page's engagement patterns: sections presented in a breathable, spacious manner; subtle parallax; sections that **stick while scrolling** rather than just fading in. Directly inspired the `HowItWorks` sticky step-through visual and the `Hero` scroll-linked pin-and-zoom effect — both built as plain CSS `position: sticky` + a small scroll hook, not a new dependency. |
+| [imagine.art/ai-fashion-studio](https://www.imagine.art/ai-fashion-studio) | The "What you can shoot" section's full-screen treatment of real output examples — inspiration for `ShowcaseSection`'s full-bleed dark grid of real deck-cover images, given generous room instead of squished into small cards. |
+| [deck.gallery](https://www.deck.gallery/) | Source of the real example-output images used in `ShowcaseSection` (`public/decks/`), and a reference for how a gallery of real, professionally designed artifacts photographs better than any fabricated mockup could. Also worth revisiting for section-layout ideas specific to a "gallery of outputs" page. |
+
+## What changed vs. the earlier direction
+
+The previous iteration of this skill was built around a purple-accent, liquid-glass,
+blob-background system with GSAP ScrollTrigger galleries and a Three.js tunnel background,
+inspired by presentations.ai, storydoc, replit, a Dribbble concept, manus.im, and two
+21st.dev component demos. That system is preserved only in git history — it produced real
+issues (purple overuse reading as generic AI-SaaS, product screenshots squished into small
+glass cards, heavier dependency footprint) that the sibling-page study above was
+specifically commissioned to fix. Do not pull design ideas from that earlier reference set
+for new pages; if in doubt, prefer "less code, more real imagery, one accent color at most."
 
 ## Also load
 
-- **`.claude/skills/ui-ux-pro-max/`** — the general design-intelligence skill (67 styles,
-  161 palettes, GSAP motion snippets, landing-page structure patterns). Good for
-  structural/motion ideas via `--domain landing` or `--domain gsap` searches. Its color
-  and typography suggestions are **not** authoritative for this project — this project's
-  palette and type system are fixed (see `brand-system.md`).
+- **`.claude/skills/ui-ux-pro-max/`** — the general design-intelligence skill (styles,
+  palettes, font pairings, motion snippets). Good for structural ideas via `--domain
+  landing` searches. Its color/typography suggestions and any GSAP/heavy-motion snippets
+  are **not** authoritative for this project — this project's palette, type system, and
+  "plain CSS over animation libraries" preference are fixed (see `brand-system.md` and
+  `component-patterns.md`).
 - **`Guidelines/GUIDELINES.md`** — the original ImagineMCP brand kit this whole system is
-  layered on top of (monochrome rule, nav/footer behavior, base type scale).
+  layered on top of (monochrome rule, nav/footer behavior, base type scale) — now much
+  closer to how the entire page looks, not just the chrome.

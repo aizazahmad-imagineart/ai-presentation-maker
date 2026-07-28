@@ -1,76 +1,89 @@
 # Page Architecture
 
-The proven section order, in the order they appear on `AI Presentation Maker`. This is a
-narrative arc (Hook → Proof → How it works → Depth → Belonging → Social proof → Objection
-handling → Close) — treat it as the default skeleton for any sub-feature page, and only
-deviate when the feature's own content genuinely doesn't fit a section, not by default.
+The proven section order, in the order they appear on `AI Presentation Maker`
+(`src/app/page.tsx`). This is a narrative arc (Hook → Problem → Proof → How it works →
+Depth → Belonging → Social proof → Objection handling → Close) — treat it as the default
+skeleton for any sub-feature page, and only deviate when the feature's own content
+genuinely doesn't fit a section, not by default.
 
-1. **Nav** (`SiteNav`, unchanged) — fixed, transparent-to-glass-pill on scroll.
+1. **Nav** (`SiteNav`, unchanged) — fixed, transparent-to-solid-pill on scroll.
 
-2. **Hero** — eyebrow pill (glass, small Sparkle icon), big Title-Case H1 with one word
-   in the brand gradient (`.text-brand-gradient`) or muted (`text-black/35`), one-sentence
-   subhead, primary CTA (`variant="brand"`) + secondary ghost CTA linking to the proof
-   section, micro-copy ("No design skills or credit card needed" — adapt per feature),
-   floating annotation chips (small glass circles with a Phosphor icon + tiny triangle
-   pointer, `hidden lg:flex` since they clutter mobile), dot-grid + blob background.
-   **The "try it" bar is a real, focusable `<input>`, not static placeholder text** —
-   clicking it must let the user type, and ideally the typed value flows into the CTA
-   link as a query param. Don't ship a fake, unclickable hint.
+2. **Hero** (`Hero.tsx`) — small eyebrow pill (plain border, tiny Sparkle icon), big
+   Title-Case H1 with one short phrase in italic Instrument Serif
+   (`font-serif-accent italic font-normal normal-case`), one-sentence subhead, a single
+   real focusable "try it" input bar (`<input>` + `Generate` button that carries the typed
+   value into the CTA link as a query param — **not** a fake unclickable hint, and **not**
+   a pair of separate CTA buttons; the current page intentionally dropped the two-button
+   layout in favor of just the input bar). Below the text: a real product screenshot,
+   presented as a "product video" — pinned via `position: sticky` inside a tall track and
+   scroll-linked scaled up toward full-bleed then released (see `component-patterns.md` →
+   scroll-linked pin-and-zoom). Optionally, one small signature accent moment (e.g. two
+   Sparkle marks in the sanctioned accent orange, flanking the headline at a slight tilt,
+   `hidden lg:block` since they clutter mobile) — see `brand-system.md` for the one-accent
+   rule. Keep vertical spacing tight enough that the product visual is visible near the
+   fold; don't let hero text padding push it fully below it.
 
-3. **Problem** — name the pain *before* the pitch. Eyebrow "The Problem", a two-line
-   heading (muted rhetorical question, then a bold statement), 3 cards each with a
-   bold lead-in phrase + one supporting sentence, small gradient stacked-square glyph.
-   Synthesize this from pain points already implied in the feature's other copy if it
-   isn't given explicitly — don't skip it just because it wasn't handed to you outright.
+3. **Problem** (`ProblemSection.tsx`) — name the pain *before* the pitch, as a plain
+   editorial numbered list (`01`/`02`/`03` in mono, no cards/icons/backgrounds), each point
+   a bold lead-in phrase + one supporting sentence. `border-t border-border-secondary`
+   only for separation. Synthesize this from pain points already implied in the feature's
+   other copy if it isn't given explicitly — don't skip it just because it wasn't handed
+   to you outright.
 
-4. **Showcase / Proof** — "see it at work." If real product screenshots exist, use them.
-   If not, build clearly-fake, clearly-labeled illustrative mockups (a title bar +
-   gradient content block + caption like `Generated from: "..."`) and say explicitly
-   that they're placeholders pending real assets — never present a fabricated mockup as
-   a real screenshot. For a feature where "browsing multiple results/outputs" is core to
-   the story, consider the scroll-driven horizontal gallery pattern (see
-   `component-patterns.md` → GSAP horizontal magnify gallery) instead of a static grid.
+4. **Showcase / Proof** (`ShowcaseSection.tsx`) — "see it at work," on a dark
+   (`bg-[#0a0a0a]`) full-bleed band. A plain grid (`grid-cols-2 md:grid-cols-3`) of real
+   example-output images (deck covers, generated results — whatever the feature actually
+   produces), each in a generous `aspect-[4/3]` cell with a subtle hover lift. **Only use
+   real assets here** — if none exist yet, say so and ask, don't fabricate a mockup (see
+   `pitfalls.md` #7).
 
-5. **How It Works** — 3 numbered step cards (Describe/Upload → Generate → Refine/Export,
-   or whatever the feature's actual 3-step flow is). Index number top-left, gradient
-   icon chip top-right, title + one-sentence body.
+5. **How It Works** (`HowItWorks.tsx`) — a two-column layout: steps in normal flow on the
+   left (index number, title, one-sentence body, mono step counter), a `position: sticky`
+   real-screenshot visual on the right that swaps images as the user scrolls past each step
+   (see `component-patterns.md` → sticky step-through visual). Mobile falls back to an
+   inline screenshot under each step. 3-4 steps is the established range — use however many
+   the feature's actual flow needs, don't pad or compress to hit a specific count.
 
-6. **Features** — a bento grid of the core capabilities (2 full-width + 2 half-width is
-   the established rhythm, but let content density decide), each card with a gradient
-   icon chip, title, body, **and a small illustrative "editing capability" demo panel**
-   (selection handles, a drag-cursor glyph, a floating status chip like "Reordering…" or
-   "Applied to all slides") — this made the abstract capability claims resonate far more
-   than icon+text alone. If the feature has a distinct "engine" or standout sub-capability
-   cluster (e.g. the generative media engine here), give it its own deeper dark purple
-   sub-band nested inside this section rather than a fifth bento cell.
+6. **Features** (`FeaturesSection.tsx`) — the core capabilities, presented plainly (short
+   heading + body per capability, real supporting imagery where it helps, no gradient icon
+   chips). Let content density and the feature's own shape decide the layout — a plain
+   grid, an alternating text/image layout, or a single strong image per capability are all
+   fine; the through-line is monochrome, breathable, real imagery over icon+text filler.
 
-7. **Use Cases** — persona/vertical grid (who is this for), dark purple-black gradient
-   background, gradient icon chips, optionally with the cursor-tracked spotlight hover
-   glow (`SpotlightCard`) for extra polish. Base the persona list on the feature's actual
-   target users — don't reuse the presentation-maker personas verbatim.
+7. **Use Cases** (`UseCasesSection.tsx`) — persona/vertical grid (who is this for). Plain
+   cards (`bg-white border border-border-primary`), optionally with the cursor-tracked
+   spotlight hover glow (`SpotlightCard`, default white glow) for extra polish. Base the
+   persona list on the feature's actual target users — don't reuse the presentation-maker
+   personas verbatim.
 
-8. **Testimonials** — prefer the **continuous marquee** pattern (slow auto-scroll,
-   pause on hover, full-bleed, edge-fade mask) over a manually-dragged horizontal
-   scroller — it reads as more alive and needs zero user interaction to appreciate.
-   Keep the heading in `.container-page`, let the marquee track itself bleed full width.
+8. **Testimonials** (`TestimonialsSection.tsx`) — the **continuous marquee** pattern (slow
+   auto-scroll, pause on hover, full-bleed, gradient-div edge fade — not `mask-image`, see
+   `pitfalls.md` #3) over a manually-dragged horizontal scroller — it reads as more alive
+   and needs zero user interaction to appreciate. Keep the heading in `.container-page`,
+   let the marquee track itself bleed full width. Only use real testimonials; if none exist
+   yet, flag it rather than inventing quotes.
 
-9. **FAQ** — reuse `FaqSection` as-is, **accordion closed by default**. Update the
-   `FAQ` data array (`src/lib/data/faq.ts`) per feature; keep the FAQPage JSON-LD.
+9. **FAQ** (`FaqSection.tsx`) — reuse as-is, **accordion open by default** (pass
+   `defaultOpen` on every row — this is a deliberate reversal from an earlier
+   closed-by-default version). Update the `FAQ` data array (`src/lib/data/faq.ts`) per
+   feature; keep the FAQPage JSON-LD.
 
-10. **Final CTA** — dark purple-black gradient band, heading with one gradient/muted
-    word, one-sentence subhead, single primary CTA, micro-copy. A decorative background
-    effect (blob glow, or something more ambitious like the 3D tunnel — see
-    `component-patterns.md`) is welcome here since it's the last thing someone sees, but
-    it must be **strictly background**: never replace, obscure, or compete with the
-    actual CTA text. Add a scrim behind the text if the effect is busy.
+10. **Final CTA** (`FinalCta.tsx`) — plain dark (`bg-[#0a0a0a]` or near-black) band, heading
+    with at most one muted/emphasized word, one-sentence subhead, single primary CTA,
+    micro-copy. No blob glow, no 3D background — a decorative background effect is no
+    longer part of the standard pattern here (the earlier version's Three.js tunnel
+    background was removed entirely; don't reintroduce heavy decoration for this section
+    unless specifically asked).
 
 11. **Footer** (`SiteFooter`, unchanged).
 
 ## When to deviate
 
-- Missing a natural "Problem" angle → still add one; nearly every feature has a "this
-  used to be slow/inconsistent/manual" framing somewhere in its other copy.
-- Two feature clusters that don't share a natural single heading → two separate Features
-  sub-sections (bento + dark band) is the established pattern, already used once.
-- No real customer testimonials yet → don't fabricate quotes or stats. Say so and ask,
-  same as was flagged for the placeholder showcase mockups on this page.
+- Missing a natural "Problem" angle → still add one; nearly every feature has a "this used
+  to be slow/inconsistent/manual" framing somewhere in its other copy.
+- Two feature clusters that don't share a natural single heading → two separate `Features`
+  sub-sections is fine, but keep both monochrome/plain — don't give one a colorful
+  treatment to "differentiate" it.
+- No real showcase imagery or testimonials yet → don't fabricate them. Say so and ask, same
+  as was flagged for this page originally, and hold that section back until real assets
+  arrive rather than shipping a placeholder mockup.

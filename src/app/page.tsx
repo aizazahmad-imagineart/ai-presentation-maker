@@ -8,7 +8,6 @@ import { HowItWorks } from "@/components/sections/HowItWorks";
 import { FeaturesSection } from "@/components/sections/FeaturesSection";
 import { UseCasesSection } from "@/components/sections/UseCasesSection";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
-import { StaggerTestimonials } from "@/components/sections/StaggerTestimonials";
 import { FinalCta } from "@/components/sections/FinalCta";
 
 export default function Home() {
@@ -23,7 +22,6 @@ export default function Home() {
         <FeaturesSection />
         <UseCasesSection />
         <TestimonialsSection />
-        <StaggerTestimonials />
         <FaqSection />
         <FinalCta />
       </main>

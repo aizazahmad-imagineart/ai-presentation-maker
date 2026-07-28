@@ -6,7 +6,7 @@ import { FAQ } from "@/lib/data/faq";
 
 function PlusMinus({ open }: { open: boolean }) {
   return (
-    <span className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-accent/10 text-accent">
+    <span className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-black/[0.05] text-content-primary">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
         <line x1="1" y1="7" x2="13" y2="7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
         <line
@@ -106,7 +106,7 @@ export function FaqSection() {
           {/* Right: accordion */}
           <div className="flex-1 min-w-0 border-t border-border-primary">
             {FAQ.map((item, i) => (
-              <FaqRow key={item.q} q={item.q} a={item.a} delay={i * 60} />
+              <FaqRow key={item.q} q={item.q} a={item.a} delay={i * 60} defaultOpen />
             ))}
           </div>
 

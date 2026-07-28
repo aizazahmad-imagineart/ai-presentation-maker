@@ -10,34 +10,27 @@ import {
   FilmSlate,
 } from "@phosphor-icons/react";
 import { Reveal } from "@/components/primitives/Reveal";
-import { ReorderMock, BrandMock, PdfToDeckMock, ChartMock } from "./FeatureMocks";
 
-const CORE_FEATURES: { icon: React.ReactNode; title: string; body: string; span?: boolean; visual: React.ReactNode }[] = [
+const CORE_FEATURES: { icon: React.ReactNode; title: string; body: string }[] = [
   {
-    icon: <ArrowsClockwise size={22} weight="regular" />,
+    icon: <ArrowsClockwise size={20} weight="regular" />,
     title: "Fix the structure without starting over",
-    body: "A slide needs to move, a section needs to grow, a point needs cutting. Reorder, merge, or trim your outline and the whole deck reflows instantly — a revision takes seconds instead of another afternoon.",
-    span: true,
-    visual: <ReorderMock />,
+    body: "Reorder, merge, or trim your outline and the whole deck reflows instantly. A revision takes seconds instead of another afternoon.",
   },
   {
-    icon: <PaintBrushBroad size={22} weight="regular" />,
+    icon: <PaintBrushBroad size={20} weight="regular" />,
     title: "Look consistent without policing every slide",
-    body: "Set your logo, colors, and fonts once, and every slide falls in line automatically — the whole presentation reads as one coherent story.",
-    visual: <BrandMock />,
+    body: "Set your logo, colors, and fonts once. Every slide falls in line automatically.",
   },
   {
-    icon: <FilePdf size={22} weight="regular" />,
+    icon: <FilePdf size={20} weight="regular" />,
     title: "Turn your notes into a deck",
-    body: "Upload the PDF sitting in a report or proposal and get back an editable, on-brand deck in minutes. No more content search and restructuring.",
-    visual: <PdfToDeckMock />,
+    body: "Upload the PDF sitting in a report or proposal and get back an editable, on-brand deck in minutes.",
   },
   {
-    icon: <ChartBar size={22} weight="regular" />,
+    icon: <ChartBar size={20} weight="regular" />,
     title: "Auto-generated charts & data slides",
-    body: "Paste in your numbers and get back a slide-ready chart, styled to match the rest of your deck — clear the moment the slide loads.",
-    span: true,
-    visual: <ChartMock />,
+    body: "Paste in your numbers. Get back a slide-ready chart, styled to match the rest of your deck.",
   },
 ];
 
@@ -45,104 +38,75 @@ const MEDIA_FEATURES: { icon: React.ReactNode; title: string; body: string }[] =
   {
     icon: <ImageSquare size={20} weight="regular" />,
     title: "Original imagery, generated per slide",
-    body: "Artwork matched to your topic and tone without relying on a stock library.",
+    body: "Artwork matched to your topic and tone. No stock library.",
   },
   {
     icon: <ShapesIcon size={20} weight="regular" />,
     title: "On-brand diagrams and icons",
-    body: "Drawn to fit your palette from scratch, instead of a recolored template shape.",
+    body: "Drawn to fit your palette from scratch, not a recolored template shape.",
   },
   {
     icon: <FilmSlate size={20} weight="regular" />,
     title: "Lightweight motion where it helps",
-    body: "Short and long-form video for demos and product reveals, generated alongside the deck.",
+    body: "Short and long-form video for demos and product reveals.",
   },
 ];
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="relative overflow-hidden border-b border-border-primary">
-      <div aria-hidden="true" className="absolute -z-10 inset-0 overflow-hidden">
-        <div className="blob absolute top-[6%] right-[-8%] w-[420px] h-[420px] bg-accent/12" />
-      </div>
-
-      <div className="container-page py-24 md:py-32">
-        <Reveal className="max-w-[720px] mb-14 md:mb-16">
+    <section id="features" className="border-b border-border-primary">
+      <div className="container-page py-20 md:py-28">
+        <Reveal className="max-w-[640px] mb-14 md:mb-16">
           <p className="font-mono text-[10.5px] font-semibold tracking-[1.8px] uppercase text-content-tertiary m-0">
             Features
           </p>
           <h2
-            className="font-display font-semibold capitalize leading-[1.05] tracking-[-0.5px] mt-3.5 mb-4 text-content-primary"
-            style={{ fontSize: "clamp(32px, 4vw, 52px)" }}
+            className="font-display font-semibold leading-[1.1] tracking-[-0.5px] mt-3.5 mb-0 text-content-primary"
+            style={{ fontSize: "clamp(28px, 3.6vw, 44px)" }}
           >
-            Everything You Need From An AI Presentation Maker
+            Everything a deck <span className="font-serif-accent italic font-normal">needs</span>
           </h2>
-          <p className="font-sans text-content-secondary leading-[1.7] tracking-[-0.005em] m-0" style={{ fontSize: "clamp(15px, 1.3vw, 18px)" }}>
-            Beyond generating slides, it&apos;s built to handle the entire lifecycle of a deck —
-            solving the pain points you&apos;ve always had with a traditional slide maker.
-          </p>
         </Reveal>
 
-        {/* Bento grid — structure & consistency */}
-        <div className="grid md:grid-cols-2 gap-4 md:gap-6 mb-6">
+        <div className="grid sm:grid-cols-2 gap-x-8 gap-y-10 mb-16 md:mb-20">
           {CORE_FEATURES.map((f, i) => (
-            <Reveal key={f.title} delay={i * 70} className={f.span ? "md:col-span-2" : ""}>
-              <div
-                className={`h-full rounded-3xl glass-card shadow-[0_2px_20px_rgba(109,63,246,0.06)] p-7 md:p-9 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_14px_36px_rgba(109,63,246,0.14)] ${
-                  f.span ? "grid md:grid-cols-[1.1fr_1fr] gap-8 items-center" : "flex flex-col gap-5"
-                }`}
-              >
-                <div className={f.span ? "order-1" : ""}>
-                  <span className="flex items-center justify-center w-11 h-11 rounded-full bg-gradient-to-br from-accent to-accent-pink text-white shrink-0 shadow-[0_4px_14px_rgba(109,63,246,0.35)] mb-5">
-                    {f.icon}
-                  </span>
-                  <h3 className="font-sans font-semibold text-content-primary mb-2" style={{ fontSize: "clamp(18px, 1.8vw, 22px)" }}>
-                    {f.title}
-                  </h3>
-                  <p className="font-sans text-[15px] leading-[1.6] text-content-secondary m-0 max-w-[52ch]">{f.body}</p>
+            <Reveal key={f.title} delay={i * 60}>
+              <div className="flex gap-4">
+                <span className="flex items-center justify-center w-9 h-9 rounded-full bg-black/[0.04] text-content-primary shrink-0">
+                  {f.icon}
+                </span>
+                <div>
+                  <h3 className="font-sans font-semibold text-content-primary text-[17px] mb-1.5">{f.title}</h3>
+                  <p className="font-sans text-[15px] leading-[1.6] text-content-secondary m-0 max-w-[46ch]">{f.body}</p>
                 </div>
-                <div className={f.span ? "order-2" : "mt-1"}>{f.visual}</div>
               </div>
             </Reveal>
           ))}
         </div>
 
-        {/* Deep-purple band — generative media engine */}
+        {/* Dark band — generative media engine */}
         <Reveal>
-          <div className="relative overflow-hidden rounded-3xl p-8 md:p-12" style={{ background: "linear-gradient(160deg, #0d0d0d 0%, #1a1030 55%, #0d0d0d 100%)" }}>
-            <div aria-hidden="true" className="absolute -z-0 inset-0 overflow-hidden">
-              <div className="blob absolute -top-16 left-[10%] w-[300px] h-[300px] bg-accent/30" />
-              <div className="blob absolute bottom-[-20%] right-[6%] w-[280px] h-[280px] bg-accent-pink/20" />
-            </div>
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 opacity-[0.06]"
-              style={{
-                backgroundImage:
-                  "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
-                backgroundSize: "22px 22px",
-              }}
-            />
-            <div className="relative max-w-[640px] mb-10">
-              <p className="font-mono text-[10.5px] font-semibold tracking-[1.8px] uppercase text-accent-light/80 m-0">
+          <div className="rounded-2xl bg-[#0d0d0d] p-8 md:p-12">
+            <div className="max-w-[560px] mb-10">
+              <p className="font-mono text-[10.5px] font-semibold tracking-[1.8px] uppercase text-white/40 m-0">
                 Generative Media Engine
               </p>
               <h3
-                className="font-display font-semibold capitalize leading-[1.1] tracking-[-0.5px] mt-3 mb-3 text-white"
-                style={{ fontSize: "clamp(24px, 3vw, 36px)" }}
+                className="font-display font-semibold leading-[1.15] tracking-[-0.5px] mt-3 mb-3 text-white"
+                style={{ fontSize: "clamp(22px, 2.6vw, 32px)" }}
               >
-                Bring Stunning Visuals To Your Slides Effortlessly
+                Stunning visuals, built in
               </h3>
               <p className="font-sans text-white/55 leading-[1.7] text-[15px] m-0">
-                Built on a full generative media engine that creates original art, diagrams, and
-                motion for every deck.
+                A full generative media engine creates original art, diagrams, and motion for
+                every deck.
               </p>
             </div>
 
-            <div className="relative grid sm:grid-cols-3 gap-4">
+            <div className="grid sm:grid-cols-3 gap-6">
               {MEDIA_FEATURES.map((f) => (
-                <div key={f.title} className="rounded-2xl glass-card-dark p-5 flex flex-col gap-3">
-                  <span className="flex items-center justify-center w-9 h-9 rounded-full bg-white/[0.1] text-accent-light shrink-0">
+                <div key={f.title} className="flex flex-col gap-3">
+                  <span className="flex items-center justify-center w-9 h-9 rounded-full bg-white/[0.08] text-white shrink-0">
                     {f.icon}
                   </span>
                   <h4 className="font-sans font-medium text-white text-[15px] m-0">{f.title}</h4>

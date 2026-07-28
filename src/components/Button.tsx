@@ -22,7 +22,7 @@ const sizes: Record<Size, string> = {
 
 const variants: Record<Variant, string> = {
   brand:
-    "bg-accent text-white shadow-[0_8px_24px_rgba(109,63,246,0.35)] transition-[background-color,box-shadow] hover:bg-accent-hover hover:shadow-[0_10px_28px_rgba(109,63,246,0.45)]",
+    "bg-content-primary text-white transition-colors hover:bg-black",
   ghost:
     "bg-transparent text-content-primary border border-border-secondary transition-colors hover:bg-black/[0.04] hover:border-border-tertiary",
   white:

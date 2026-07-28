@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Instrument_Serif } from "next/font/google";
 import "./globals.css";
 
 const googleSans = localFont({
@@ -7,6 +8,16 @@ const googleSans = localFont({
   variable: "--font-google-sans",
   display: "swap",
   weight: "100 900",
+});
+
+// Editorial italic accent — used sparingly, one emphasis word per headline,
+// never for full sentences or body copy.
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: "italic",
+  variable: "--font-serif-accent",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -21,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${googleSans.variable} h-full antialiased`}>
+    <html lang="en" className={`${googleSans.variable} ${instrumentSerif.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

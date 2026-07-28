@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* ---------- Primitives — orange accent ramp (#FB5607 base) ---------- */
+  /* ---------- Primitives — orange accent ramp (#FB5607 base), legacy/unused ---------- */
   --color-primary-10: rgb(255 243 235);
   --color-primary-20: rgb(255 224 204);
   --color-primary-30: rgb(255 178 128);
@@ -25,45 +25,25 @@
   --color-neutral-100: rgb(23 23 23);     /* #171717 */
   --color-neutral-110: rgb(15 15 15);     /* #0F0F0F */
 
-  /* Imagine.art's secondary accent (orange) — legacy, unused on this page */
-  --color-accent-orange: rgb(251 86 7);   /* #FB5607 */
-
-  /* ---------- Core purple — sampled from Guidelines/assets/imagine-logo.svg ---------- */
-  --color-accent-deep: #240e77;
-  --color-accent: #6d3ff6;
-  --color-accent-hover: #5a2fe0;
-  --color-accent-light: #a189e1;
-  --color-accent-pink: #cc98f8;
-  --color-accent-soft: #f2c2fa;
-
-  /* Brand gradient endpoints — sampled from the imagine-logo.svg mark */
-  --color-brand-from: #34195b;
-  --color-brand-via: #6d3ff6;
-  --color-brand-to: #cc98f8;
-
-  /* ---------- Semantic tokens (light theme) ---------- */
+  /* ---------- Semantic tokens (light theme) — monochrome, no colored accent ---------- */
   --color-background: rgb(255 255 255);
   --color-content-primary: rgb(23 23 23);
   --color-content-secondary: rgb(87 87 87);
   --color-content-tertiary: rgb(0 0 0 / 0.5);
-  --color-content-brand: rgb(214 67 0);
 
   --color-surface-primary: rgb(250 250 250);
   --color-surface-secondary: rgb(240 240 240);
   --color-surface-tertiary: rgb(230 230 230);
 
-  --color-fill-brand: rgb(251 86 7);
-  --color-fill-brand-hover: rgb(214 67 0);
-
   --color-border-primary: rgb(0 0 0 / 0.08);
   --color-border-secondary: rgb(0 0 0 / 0.12);
   --color-border-tertiary: rgb(0 0 0 / 0.2);
-  --color-border-brand: rgb(251 86 7);
 
   /* ---------- Fonts (variable wired via next/font in layout.tsx) ---------- */
   --font-sans: var(--font-google-sans), "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-google-sans), "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+  --font-serif-accent: var(--font-serif-accent), Georgia, serif;
 
   /* ---------- Type scale ---------- */
   --text-display-md: 72px;
@@ -138,44 +118,12 @@
     text-decoration: none;
   }
   ::selection {
-    background: rgb(109 63 246 / 0.25);
+    background: rgb(23 23 23 / 0.12);
     color: rgb(23 23 23);
   }
 }
 
 @layer utilities {
-  /* Reusable brand gradient — single source of truth for the purple lockup look */
-  .bg-brand-gradient {
-    background-image: linear-gradient(135deg, var(--color-brand-from) 0%, var(--color-brand-via) 55%, var(--color-brand-to) 100%);
-  }
-  .text-brand-gradient {
-    background-image: linear-gradient(135deg, var(--color-brand-from) 0%, var(--color-brand-via) 55%, var(--color-brand-to) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  /* Liquid glass — frosted surface for cards over colorful/blob backgrounds */
-  .glass-card {
-    background: rgb(255 255 255 / 0.6);
-    backdrop-filter: blur(24px) saturate(160%);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
-    border: 1px solid rgb(255 255 255 / 0.5);
-  }
-  .glass-card-dark {
-    background: rgb(255 255 255 / 0.06);
-    backdrop-filter: blur(24px) saturate(160%);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
-    border: 1px solid rgb(255 255 255 / 0.1);
-  }
-
-  /* Soft blurred gradient blob — ambient "liquid glass" lighting */
-  .blob {
-    border-radius: 9999px;
-    filter: blur(64px);
-    pointer-events: none;
-  }
-
   /* Horizontal-only padding: a shorthand value here would silently zero out
      any vertical padding classes applied alongside it. */
   .container-page {
@@ -301,32 +249,4 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-@keyframes blob-drift-1 {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-30px); }
-}
-
-@keyframes blob-drift-2 {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(25px); }
-}
-
-/* Small translate range keeps the warm wash drifting subtly; a modest scale
-   (>= 1 + translateX%/50) is enough to keep both edges covered without the
-   560px radial circle blowing up to fill the viewport with flat orange. */
-@keyframes hero-glow-drift {
-  0%   { transform: translate3d(-5%, -2%, 0) scale(1.12); }
-  50%  { transform: translate3d(5%, 6%, 0) scale(1.18); }
-  100% { transform: translate3d(-5%, -2%, 0) scale(1.12); }
-}
-
-.hero-glow {
-  animation: hero-glow-drift 11s ease-in-out infinite;
-  will-change: transform;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-glow { animation: none; }
 }
