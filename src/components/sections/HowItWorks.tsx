@@ -80,7 +80,7 @@ export function HowItWorks() {
                 ref={(el) => {
                   refs.current[i] = el;
                 }}
-                className="py-14 md:py-24 border-t border-border-secondary first:border-t-0 md:first:border-t md:min-h-[70vh] md:flex md:flex-col md:justify-center"
+                className="py-14 md:py-0 md:min-h-screen md:flex md:flex-col md:justify-center"
               >
                 <span
                   className="font-mono text-[13px] tracking-[0.5px] transition-colors duration-300"
