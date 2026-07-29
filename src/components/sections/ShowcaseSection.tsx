@@ -26,7 +26,7 @@ export function ShowcaseSection() {
       <div className="container-page py-20 md:py-28">
         <Reveal className="max-w-[640px] mb-14 md:mb-16">
           <p className="font-mono text-[10.5px] font-semibold tracking-[1.8px] uppercase text-white/40 m-0">
-            See It At Work
+            AI PowerPoint Presentation Maker
           </p>
           <h2
             className="font-display font-semibold leading-[1.1] tracking-[-0.5px] mt-3.5 mb-4 text-white"
@@ -35,8 +35,8 @@ export function ShowcaseSection() {
             Every deck below started as a single line of text
           </h2>
           <p className="font-sans text-white/55 leading-[1.7] m-0" style={{ fontSize: "clamp(15px, 1.3vw, 18px)" }}>
-            The AI read the brief, wrote the narrative, chose a layout, and built the slides.
-            No template required.
+            Our AI PowerPoint presentation maker read the brief, wrote the narrative, chose a
+            layout, and built the slides. No template required.
           </p>
         </Reveal>
 

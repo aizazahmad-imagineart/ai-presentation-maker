@@ -22,7 +22,9 @@ export default function Home() {
         <HowItWorks />
         <FeaturesSection />
         <UseCasesSection />
-        <TestimonialsSection />
+        {/* Marquee testimonials — hidden in favor of the stacked carousel
+            below, kept mounted-ready so it's a one-line swap to bring back. */}
+        {/* <TestimonialsSection /> */}
         <TestimonialsStaggerSection />
         <FaqSection />
         <FinalCta />

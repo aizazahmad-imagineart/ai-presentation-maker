@@ -38,17 +38,17 @@ const MEDIA_FEATURES: { icon: React.ReactNode; title: string; body: string }[] =
   {
     icon: <ImageSquare size={20} weight="regular" />,
     title: "Original imagery, generated per slide",
-    body: "Artwork matched to your topic and tone. No stock library.",
+    body: "Artwork made with an AI art generator to match your topic and tone. No stock library.",
   },
   {
     icon: <ShapesIcon size={20} weight="regular" />,
     title: "On-brand diagrams and icons",
-    body: "Drawn to fit your palette from scratch, not a recolored template shape.",
+    body: "Drawn with an AI image generator to fit your palette from scratch, not a recolored template shape.",
   },
   {
     icon: <FilmSlate size={20} weight="regular" />,
     title: "Lightweight motion where it helps",
-    body: "Short and long-form video for demos and product reveals.",
+    body: "Short and long-form video for demos and product reveals, generated with an AI video generator or AI motion graphics generator.",
   },
 ];
 
@@ -64,8 +64,13 @@ export function FeaturesSection() {
             className="font-display font-semibold leading-[1.1] tracking-[-0.5px] mt-3.5 mb-0 text-content-primary"
             style={{ fontSize: "clamp(28px, 3.6vw, 44px)" }}
           >
-            Everything a deck <span className="font-serif-accent italic font-normal">needs</span>
+            Everything you need from an{" "}
+            <span className="font-serif-accent italic font-normal">AI presentation maker</span>
           </h2>
+          <p className="font-sans text-content-secondary leading-[1.7] mt-3.5 mb-0 max-w-[52ch]" style={{ fontSize: "clamp(15px, 1.3vw, 18px)" }}>
+            It&apos;s built to solve every pain point you&apos;ve ever had with a traditional slide
+            maker.
+          </p>
         </Reveal>
 
         <div className="grid sm:grid-cols-2 gap-x-8 gap-y-10 mb-16 md:mb-20">

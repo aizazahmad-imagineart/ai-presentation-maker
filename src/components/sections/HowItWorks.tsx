@@ -22,7 +22,7 @@ const STEPS: { title: string; body: string; image: string }[] = [
   },
   {
     title: "Get your deck",
-    body: "A fully designed, fully editable presentation — ready to present or export.",
+    body: "A fully designed, fully editable presentation — export to PPTX, PDF, or PNG whenever you're ready.",
     image: "/screenshots/flow-4-editor.png",
   },
 ];
@@ -69,6 +69,10 @@ export function HowItWorks() {
           >
             From text to <span className="font-serif-accent italic font-normal">slides</span> in four steps
           </h2>
+          <p className="font-sans text-content-secondary leading-[1.7] mt-3.5 mb-0 max-w-[52ch]" style={{ fontSize: "clamp(15px, 1.3vw, 18px)" }}>
+            No blank canvas, no formatting rabbit holes — the AI slide maker handles
+            structure, writing, and design all at once.
+          </p>
         </Reveal>
 
         <div className="grid md:grid-cols-2 gap-x-16">

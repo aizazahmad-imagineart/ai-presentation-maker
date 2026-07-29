@@ -81,13 +81,16 @@ export function Hero() {
             className="font-display font-semibold capitalize leading-[1.04] tracking-[-1.5px] text-content-primary m-0"
             style={{ fontSize: "clamp(40px, 6vw, 76px)" }}
           >
+            <span className="block font-mono text-[13px] md:text-[14px] font-semibold uppercase tracking-[1.8px] text-content-tertiary mb-3">
+              AI Presentation Maker
+            </span>
             Your Next Deck, Drafted{" "}
             <span className="font-serif-accent italic font-normal normal-case tracking-normal">in Minutes</span>
           </h1>
 
           <p className="font-sans text-content-secondary leading-[1.7] tracking-[-0.005em] max-w-[540px] mt-5" style={{ fontSize: "clamp(16px, 1.6vw, 19px)" }}>
-            Turn a rough idea, an outline, or an old PDF into a fully designed deck —
-            written, structured, and styled in one pass.
+            Imagine Computer&apos;s AI presentation maker turns a rough idea, an outline, or an old
+            PDF into a fully designed deck — written, structured, and styled in one pass.
           </p>
 
           <p className="text-[13px] text-content-tertiary mt-5">No design skills or credit card needed.</p>
