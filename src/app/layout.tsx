@@ -21,9 +21,17 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.imagine.art/imagine-computer/ai-presentation-maker"),
   title: "AI Presentation Maker: Text to Slides, Fast with Imagine Computer",
   description:
     "Imagine Computer's AI presentation maker turns any prompt, outline, or PDF into a polished deck. Try it for free. No design skills or credit card needed.",
+  alternates: {
+    canonical: "https://www.imagine.art/imagine-computer/ai-presentation-maker",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

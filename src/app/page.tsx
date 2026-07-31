@@ -2,11 +2,10 @@ import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { FaqSection } from "@/components/FaqSection";
 import { Hero } from "@/components/sections/Hero";
-import { ProblemSection } from "@/components/sections/ProblemSection";
 import { ShowcaseSection } from "@/components/sections/ShowcaseSection";
 import { HowItWorks } from "@/components/sections/HowItWorks";
-import { FeaturesSection } from "@/components/sections/FeaturesSection";
 import { UseCasesSection } from "@/components/sections/UseCasesSection";
+import { VisualsSection } from "@/components/sections/VisualsSection";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { TestimonialsStaggerSection } from "@/components/sections/TestimonialsStaggerSection";
 import { FinalCta } from "@/components/sections/FinalCta";
@@ -17,11 +16,11 @@ export default function Home() {
       <SiteNav />
       <main className="flex-1">
         <Hero />
-        <ProblemSection />
+        <HowItWorks variant="cards" />
         <ShowcaseSection />
-        <HowItWorks />
-        <FeaturesSection />
+        <HowItWorks id="how-it-works-copy" />
         <UseCasesSection />
+        <VisualsSection />
         {/* Marquee testimonials — hidden in favor of the stacked carousel
             below, kept mounted-ready so it's a one-line swap to bring back. */}
         {/* <TestimonialsSection /> */}
